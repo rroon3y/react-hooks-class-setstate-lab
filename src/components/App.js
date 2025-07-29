@@ -1,26 +1,44 @@
-import React, { useState } from "react";
+import React from "react";
 import ShoppingList from "./ShoppingList";
-import itemData from "../data/items";
 
-function App() {
-  const [items, setItems] = useState(itemData);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  function handleDarkModeClick() {
-    setIsDarkMode((isDarkMode) => !isDarkMode);
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      items: [
+        { id: 1, name: "Milk", isInCart: false },
+        { id: 2, name: "Bread", isInCart: false },
+        { id: 3, name: "Eggs", isInCart: false },
+      ],
+      showOnlyInCart: false,
+    };
   }
 
-  return (
-    <div className={"App " + (isDarkMode ? "dark" : "light")}>
-      <header>
-        <h2>Shopster</h2>
-        <button onClick={handleDarkModeClick}>
-          {isDarkMode ? "Dark" : "Light"} Mode
+  handleAddToCart = (itemId) => {
+    const updatedItems = this.state.items.map((item) =>
+      item.id === itemId ? { ...item, isInCart: !item.isInCart } : item
+    );
+    this.setState({ items: updatedItems });
+  };
+
+  toggleFilter = () => {
+    this.setState({ showOnlyInCart: !this.state.showOnlyInCart });
+  };
+
+  render() {
+    const itemsToDisplay = this.state.showOnlyInCart
+      ? this.state.items.filter((item) => item.isInCart)
+      : this.state.items;
+
+    return (
+      <div className="App">
+        <ShoppingList items={itemsToDisplay} onItemClick={this.handleAddToCart} />
+        <button onClick={this.toggleFilter}>
+          {this.state.showOnlyInCart ? "Show All" : "Only Show In Cart"}
         </button>
-      </header>
-      <ShoppingList items={items} />
-    </div>
-  );
+      </div>
+    );
+  }
 }
 
 export default App;
