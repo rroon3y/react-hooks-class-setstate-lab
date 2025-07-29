@@ -21,24 +21,24 @@ test("uses a class component", () => {
 });
 
 test("displays all items when initially rendered", () => {
-  const { container } = render(<ShoppingList items={testData} />);
-  expect(container.querySelector(".Items").children).toHaveLength(
-    testData.length
-  );
+  render(<ShoppingList items={testData} />);
+  expect(screen.getAllByRole("listitem")).toHaveLength(testData.length);
 });
 
 test("displays only items that match the selected category", () => {
-  const { container } = render(<ShoppingList items={testData} />);
+  render(<ShoppingList items={testData} />);
 
   fireEvent.change(screen.getByRole("combobox"), {
     target: { value: "Dairy" },
   });
 
-  expect(container.querySelector(".Items").children).toHaveLength(2);
+  expect(screen.getAllByRole("listitem")).toHaveLength(2);
+
+  expect(screen.getAllByRole("listitem")).toHaveLength(2);
 
   fireEvent.change(screen.getByRole("combobox"), {
     target: { value: "Dessert" },
   });
 
-  expect(container.querySelector(".Items").children).toHaveLength(1);
+  expect(screen.getAllByRole("listitem")).toHaveLength(1);
 });

@@ -13,28 +13,28 @@ test("uses a class component", () => {
 });
 
 test("displays in 'light' mode when initialized", () => {
-  const { container } = render(<App />);
-  expect(container.querySelector(".light")).toBeInTheDocument();
+  render(<App />);
+  expect(screen.getByRole("button")).toHaveClass("light");
 });
 
 test("changes to 'dark' mode when the button is clicked", () => {
-  const { container } = render(<App />);
-  expect(container.querySelector(".light")).toBeInTheDocument();
+  render(<App />);
+  expect(screen.getByRole("button")).toHaveClass("light");
 
   fireEvent.click(screen.getByText(/ Mode/));
 
-  expect(container.querySelector(".dark")).toBeInTheDocument();
+  expect(screen.getByRole("button")).toHaveClass("dark");
 });
 
 test("changes back to 'light' mode when the button is clicked twice", () => {
-  const { container } = render(<App />);
-  expect(container.querySelector(".light")).toBeInTheDocument();
+  render(<App />);
+  expect(screen.getByRole("button")).toHaveClass("light");
 
   fireEvent.click(screen.getByText(/ Mode/));
 
-  expect(container.querySelector(".dark")).toBeInTheDocument();
+  expect(screen.getByRole("button")).toHaveClass("dark");
 
   fireEvent.click(screen.getByText(/ Mode/));
 
-  expect(container.querySelector(".light")).toBeInTheDocument();
+  expect(screen.getByRole("button")).toHaveClass("light");
 });
